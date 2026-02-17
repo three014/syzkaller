@@ -77,8 +77,11 @@ func (ctx *mutator) splice() bool {
 	p0 := ctx.corpus[r.Intn(len(ctx.corpus))]
 	p0c := p0.Clone()
 	idx := r.Intn(len(p.Calls))
+	if idx%2 != 0 {
+		idx--
+	}
 	p.Calls = append(p.Calls[:idx], append(p0c.Calls, p.Calls[idx:]...)...)
-	for i := len(p.Calls) - 1; i >= ctx.ncalls; i-- {
+	for i := len(p.Calls) - 1; i >= ctx.ncalls; i -= 2 {
 		p.RemoveCall(i)
 	}
 	return true
@@ -133,13 +136,18 @@ func (ctx *mutator) insertCall() bool {
 		return false
 	}
 	idx := r.biasedRand(len(p.Calls)+1, 5)
+	if idx%2 != 0 {
+		idx--
+	}
 	var c *Call
 	if idx < len(p.Calls) {
 		c = p.Calls[idx]
 	}
 	s := analyze(ctx.ct, ctx.corpus, p, c)
-	calls := r.generateCall(s, p, idx)
+	calls := r.generateCall(s, p, idx, false)
 	p.insertBefore(c, calls)
+	p_calls := r.generateCall(s, p, idx, true)
+	p.insertBefore(calls[len(calls)-1], p_calls)
 	for len(p.Calls) > ctx.ncalls {
 		p.RemoveCall(idx)
 	}
@@ -153,6 +161,9 @@ func (ctx *mutator) removeCall() bool {
 		return false
 	}
 	idx := r.Intn(len(p.Calls))
+	if idx%2 != 0 {
+		idx--
+	}
 	p.RemoveCall(idx)
 	return true
 }
@@ -165,6 +176,9 @@ func (ctx *mutator) mutateArg() bool {
 	}
 
 	idx := chooseCall(p, r)
+    if idx%2 != 0 {
+        idx--
+    }
 	if idx < 0 {
 		return false
 	}

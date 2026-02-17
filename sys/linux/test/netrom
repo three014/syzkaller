@@ -1,2 +1,4 @@
+syz_prepare_data(0x0)
 r0 = syz_init_net_socket$netrom(AUTO, AUTO, AUTO)
+syz_prepare_data(0x0)
 close(r0)

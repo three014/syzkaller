@@ -10240,6 +10240,60 @@ static long syz_clone3(volatile long a0, volatile long a1)
 
 #endif
 
+#if SYZ_EXECUTOR || __NR_syz_interrupt
+
+#define INTERRUPT _IO(0x68, 0)
+
+static long syz_interrupt(volatile long a0)
+{
+	char* data = (char*)a0;
+	int fd, ret;
+
+	fd = open("/dev/print_fuzz", O_RDONLY);
+	if (fd < 0)
+		fail("Open print_fuzz failed.");
+	ret = ioctl(fd, INTERRUPT, data);
+	if (ret < 0) {
+		debug("Ioctl interrupt for print_fuzz failed.");
+		return -1;
+	}
+
+	return 0;
+}
+
+#endif
+
+#if SYZ_EXECUTOR || __NR_syz_prepare_data
+
+#define PREPARE_DATA _IO(0x68, 1)
+
+#define BUF_LEN 0x400
+#define DMA_BUF_LEN 0x10000
+
+typedef struct fuzz_input {
+	char register_data[BUF_LEN];
+	char dma_data[DMA_BUF_LEN];
+} fuzz_input;
+
+static long syz_prepare_data(volatile long a0)
+{
+	fuzz_input* data = (fuzz_input*)a0;
+	int fd, ret;
+
+	fd = open("/dev/print_fuzz", O_RDONLY);
+	if (fd < 0)
+		fail("Open print_fuzz failed.");
+	ret = ioctl(fd, PREPARE_DATA, data);
+	if (ret < 0) {
+		debug("Ioctl prepare_data for print_fuzz failed.");
+		return -1;
+	}
+
+	return 0;
+}
+
+#endif
+
 #elif GOOS_test
 
 #include <stdlib.h>

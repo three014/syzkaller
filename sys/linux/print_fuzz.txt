@@ -1,0 +1,7 @@
+syz_interrupt(device_name ptr[in, string["test"]])
+syz_prepare_data(arg ptr64[in, data])
+
+data {
+	register	array[int8, 1024]
+	dma			array[int8, 1024]
+}

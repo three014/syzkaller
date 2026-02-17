@@ -1,0 +1,14 @@
+resource fake_fd_fake_drivers_tty_nozomi[fd]
+syz_open_dev$dev_fake_drivers_tty_nozomi(dev ptr[in, string["/dev/noz#"]], id intptr, flags flags[open_flags]) fake_fd_fake_drivers_tty_nozomi
+write$dev_fake_drivers_tty_nozomi(fd fake_fd_fake_drivers_tty_nozomi, buf buffer[in], const len[buf])
+read$dev_fake_drivers_tty_nozomi(fd fake_fd_fake_drivers_tty_nozomi, buf buffer[out], const len[buf])
+poll$dev_fake_drivers_tty_nozomi(fds ptr[in, array[pollfake_fd_fake_drivers_tty_nozomi]], nfds len[fds], timeout int32)
+close$dev_fake_drivers_tty_nozomi(fd fake_fd_fake_drivers_tty_nozomi)
+ioctl$dev_fake_drivers_tty_nozomi_1(fd fake_fd_fake_drivers_tty_nozomi, cmd const[0x545c], arg intptr)
+ioctl$dev_fake_drivers_tty_nozomi_2(fd fake_fd_fake_drivers_tty_nozomi, cmd const[0x545c], arg ptr64[in, int64])
+
+pollfake_fd_fake_drivers_tty_nozomi {
+	fd	fake_fd_fake_drivers_tty_nozomi
+	events	flags[pollfd_events, int16]
+	revents	const[0, int16]
+}

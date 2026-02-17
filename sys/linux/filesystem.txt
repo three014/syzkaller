@@ -5,6 +5,7 @@ include <uapi/linux/mount.h>
 include <linux/fs.h>
 include <linux/fcntl.h>
 
+syz_interrupt$nvme(device_name ptr[in, string["nvme"]])
 mount(src ptr[in, blockdev_filename], dst ptr[in, filename], type ptr[in, string[filesystem]], flags flags[mount_flags], data ptr[in, string, opt])
 umount2(path ptr[in, filename], flags flags[umount_flags])
 
@@ -72,6 +73,7 @@ blockdev_filename [
 	md0		string["/dev/md0"]
 	sg0		string["/dev/sg0"]
 	sr0		string["/dev/sr0"]
+    nvme0n1		string["/dev/nvme0n1"]
 ] [varlen]
 
 nbd_filename {

@@ -1,4 +1,8 @@
+syz_prepare_data(0x0)
 r0 = openat(0xffffffffffffff9c, &AUTO='./file1\x00', 0x42, 0x1ff)
+syz_prepare_data(0x0)
 write(r0, &AUTO="01010101", 0x4)
+syz_prepare_data(0x0)
 read(r0, &AUTO=""/4, 0x4)
+syz_prepare_data(0x0)
 close(r0)

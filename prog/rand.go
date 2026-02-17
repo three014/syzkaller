@@ -385,8 +385,18 @@ func (r *randGen) createResource(s *state, res *ResourceType, dir Dir) (Arg, []*
 	}
 	// Now we have a set of candidate calls that can create the necessary resource.
 	// Generate one of them.
+	p_idx := sort.Search(len(r.target.Syscalls), func(i int) bool {
+		return r.target.Syscalls[i].Name >= "syz_prepare_data"
+	})
+	p_meta := r.target.Syscalls[p_idx]
+	calls := r.generateParticularCall(s, p_meta)
+
 	meta := metas[r.Intn(len(metas))]
-	calls := r.generateParticularCall(s, meta)
+	t_calls := r.generateParticularCall(s, meta)
+	for _, c := range t_calls {
+		s.analyze(c)
+		calls = append(calls, c)
+	}
 	s1 := newState(r.target, s.ct, nil)
 	s1.analyze(calls[len(calls)-1])
 	// Now see if we have what we want.
@@ -532,14 +542,26 @@ func (r *randGen) nOutOf(n, outOf int) bool {
 	return v < n
 }
 
-func (r *randGen) generateCall(s *state, p *Prog, insertionPoint int) []*Call {
-	biasCall := -1
-	if insertionPoint > 0 {
-		// Choosing the base call is based on the insertion point of the new calls sequence.
-		biasCall = p.Calls[r.Intn(insertionPoint)].Meta.ID
+func (r *randGen) generateCall(s *state, p *Prog, insertionPoint int, is_prepare bool) []*Call {
+	p_idx := sort.Search(len(r.target.Syscalls), func(i int) bool {
+		return r.target.Syscalls[i].Name >= "syz_prepare_data"
+	})
+	meta := r.target.Syscalls[p_idx]
+
+	if !is_prepare {
+		biasCall := -1
+		if insertionPoint > 0 {
+			// Choosing the base call is based on the insertion point of the new calls sequence.
+			biasCall = p.Calls[r.Intn(insertionPoint)].Meta.ID
+		}
+		for {
+			idx := s.ct.choose(r.Rand, biasCall)
+			if idx != p_idx {
+				meta = r.target.Syscalls[idx]
+				break
+			}
+		}
 	}
-	idx := s.ct.choose(r.Rand, biasCall)
-	meta := r.target.Syscalls[idx]
 	return r.generateParticularCall(s, meta)
 }
 
@@ -869,7 +891,7 @@ func (r *randGen) resourceCentric(s *state, t *ResourceType, dir Dir) (arg Arg, 
 	relatedRes := map[*ResultArg]bool{resource: true}
 
 	// Remove unrelated calls from the program.
-	for idx := len(p.Calls) - 1; idx >= 0; idx-- {
+	for idx := len(p.Calls) - 1; idx >= 0; idx -= 2 {
 		includeCall := false
 		var newResources []*ResultArg
 		ForeachArg(p.Calls[idx], func(arg Arg, _ *ArgCtx) {

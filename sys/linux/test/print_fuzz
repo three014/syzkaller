@@ -1,0 +1,4 @@
+syz_prepare_data(0x0)
+syz_interrupt(0x0)
+syz_prepare_data(0x0)
+syz_prepare_data(0x0)

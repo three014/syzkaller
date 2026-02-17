@@ -1,0 +1,32 @@
+resource fake_fd_fake_drivers_misc_pci_endpoint_test[fd]
+openat$dev_fake_drivers_misc_pci_endpoint_test(fd const[AT_FDCWD], file ptr[in, string["/dev/pci-endpoint-test.0"]], flags flags[open_flags], mode const[0]) fake_fd_fake_drivers_misc_pci_endpoint_test
+write$dev_fake_drivers_misc_pci_endpoint_test(fd fake_fd_fake_drivers_misc_pci_endpoint_test, buf buffer[in], const len[buf])
+read$dev_fake_drivers_misc_pci_endpoint_test(fd fake_fd_fake_drivers_misc_pci_endpoint_test, buf buffer[out], const len[buf])
+poll$dev_fake_drivers_misc_pci_endpoint_test(fds ptr[in, array[pollfake_fd_fake_drivers_misc_pci_endpoint_test]], nfds len[fds], timeout int32)
+close$dev_fake_drivers_misc_pci_endpoint_test(fd fake_fd_fake_drivers_misc_pci_endpoint_test)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_1(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x5001], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_2(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x5001], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_3(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x5010], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_4(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x5010], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_5(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x5002], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_6(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x5002], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_7(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40045003], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_8(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40045003], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_9(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40045007], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_10(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40045007], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_11(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40085004], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_12(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40085004], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_13(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40085005], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_14(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40085005], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_15(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40085006], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_16(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40085006], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_17(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40045008], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_18(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x40045008], arg ptr64[in, int64])
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_19(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x5009], arg intptr)
+ioctl$dev_fake_drivers_misc_pci_endpoint_test_20(fd fake_fd_fake_drivers_misc_pci_endpoint_test, cmd const[0x5009], arg ptr64[in, int64])
+
+pollfake_fd_fake_drivers_misc_pci_endpoint_test {
+	fd	fake_fd_fake_drivers_misc_pci_endpoint_test
+	events	flags[pollfd_events, int16]
+	revents	const[0, int16]
+}

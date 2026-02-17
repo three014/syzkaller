@@ -318,6 +318,8 @@ var syzkallSupport = map[string]func(*prog.Syscall, *prog.Target, string) (bool,
 	"syz_usbip_server_init":       isSyzUsbIPSupported,
 	"syz_clone":                   alwaysSupported,
 	"syz_clone3":                  alwaysSupported,
+	"syz_interrupt":               alwaysSupported,
+	"syz_prepare_data":            alwaysSupported,
 }
 
 func isSupportedSyzkall(c *prog.Syscall, target *prog.Target, sandbox string) (bool, string) {

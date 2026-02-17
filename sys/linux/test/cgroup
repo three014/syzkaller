@@ -3,13 +3,23 @@
 # TODO(dvyukov): sandbox=setuid has some permissions setup problems.
 # requires: -sandbox= -sandbox=setuid -C,norepeat
 
+syz_prepare_data(0x0)
 r0 = getpid()
+syz_prepare_data(0x0)
 r1 = openat(0xffffffffffffff9c, &AUTO='./cgroup/cgroup.procs\x00', 0x2, 0x0)
+syz_prepare_data(0x0)
 read(r1, &AUTO="00", AUTO)
+syz_prepare_data(0x0)
 write$cgroup_pid(r1, &AUTO=r0, AUTO)
+syz_prepare_data(0x0)
 close(r1)
+syz_prepare_data(0x0)
 openat(0xffffffffffffff9c, &AUTO='./cgroup/pids.max\x00', 0x2, 0x0)
+syz_prepare_data(0x0)
 openat(0xffffffffffffff9c, &AUTO='./cgroup.cpu/cgroup.procs\x00', 0x2, 0x0)
+syz_prepare_data(0x0)
 openat(0xffffffffffffff9c, &AUTO='./cgroup.cpu/cpuset.cpus\x00', 0x2, 0x0)
+syz_prepare_data(0x0)
 openat(0xffffffffffffff9c, &AUTO='./cgroup.net/cgroup.procs\x00', 0x2, 0x0)
+syz_prepare_data(0x0)
 openat(0xffffffffffffff9c, &AUTO='./cgroup.net/devices.allow\x00', 0x1, 0x0)

@@ -63,13 +63,13 @@ func Minimize(p0 *Prog, callIndex0 int, crash bool, pred0 func(*Prog, int) bool)
 }
 
 func removeCalls(p0 *Prog, callIndex0 int, crash bool, pred func(*Prog, int) bool) (*Prog, int) {
-	for i := len(p0.Calls) - 1; i >= 0; i-- {
-		if i == callIndex0 {
+	for i := len(p0.Calls) - 1; i >= 0; i -= 2 {
+		if i == callIndex0 || (i-1) == callIndex0 {
 			continue
 		}
 		callIndex := callIndex0
 		if i < callIndex {
-			callIndex--
+			callIndex -= 2
 		}
 		p := p0.Clone()
 		p.RemoveCall(i)

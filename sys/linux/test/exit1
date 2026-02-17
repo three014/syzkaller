@@ -1,3 +1,6 @@
+syz_prepare_data(0x0)
 getpid()
+syz_prepare_data(0x0)
 exit_group(0x1)	# unexecuted
+syz_prepare_data(0x0)
 getpid()	# unexecuted

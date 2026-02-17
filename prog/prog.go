@@ -416,6 +416,14 @@ func removeArg(arg0 Arg) {
 
 // removeCall removes call idx from p.
 func (p *Prog) RemoveCall(idx int) {
+	if idx%2 != 0 {
+		idx--
+	}
+	p.RemoveCallTrue(idx)
+	p.RemoveCallTrue(idx)
+}
+
+func (p *Prog) RemoveCallTrue(idx int) {
 	c := p.Calls[idx]
 	for _, arg := range c.Args {
 		removeArg(arg)

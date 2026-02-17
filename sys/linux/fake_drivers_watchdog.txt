@@ -1,0 +1,26 @@
+resource fake_fd_watchdog[fd]
+openat$dev_watchdog(fd const[AT_FDCWD], file ptr[in, string["/dev/watchdog"]], flags flags[open_flags], mode const[0]) fake_fd_watchdog
+write$dev_watchdog(fd fake_fd_watchdog, buf buffer[in], const len[buf])
+read$dev_watchdog(fd fake_fd_watchdog, buf buffer[out], const len[buf])
+poll$dev_watchdog(fds ptr[in, array[pollfake_fd_watchdog]], nfds len[fds], timeout int32)
+close$dev_watchdog(fd fake_fd_watchdog)
+ioctl$dev_watchdog_1(fd fake_fd_watchdog, cmd const[0x80285700], arg intptr)
+ioctl$dev_watchdog_2(fd fake_fd_watchdog, cmd const[0x80285700], arg ptr64[in, int64])
+ioctl$dev_watchdog_3(fd fake_fd_watchdog, cmd const[0x80045701], arg intptr)
+ioctl$dev_watchdog_4(fd fake_fd_watchdog, cmd const[0x80045701], arg ptr64[in, int64])
+ioctl$dev_watchdog_5(fd fake_fd_watchdog, cmd const[0x80045702], arg intptr)
+ioctl$dev_watchdog_6(fd fake_fd_watchdog, cmd const[0x80045702], arg ptr64[in, int64])
+ioctl$dev_watchdog_7(fd fake_fd_watchdog, cmd const[0x80045704], arg intptr)
+ioctl$dev_watchdog_8(fd fake_fd_watchdog, cmd const[0x80045704], arg ptr64[in, int64])
+ioctl$dev_watchdog_9(fd fake_fd_watchdog, cmd const[0x80045705], arg intptr)
+ioctl$dev_watchdog_10(fd fake_fd_watchdog, cmd const[0x80045705], arg ptr64[in, int64])
+ioctl$dev_watchdog_11(fd fake_fd_watchdog, cmd const[0xc0045706], arg intptr)
+ioctl$dev_watchdog_12(fd fake_fd_watchdog, cmd const[0xc0045706], arg ptr64[in, int64])
+ioctl$dev_watchdog_13(fd fake_fd_watchdog, cmd const[0x80045707], arg intptr)
+ioctl$dev_watchdog_14(fd fake_fd_watchdog, cmd const[0x80045707], arg ptr64[in, int64])
+
+pollfake_fd_watchdog {
+	fd	fake_fd_watchdog
+	events	flags[pollfd_events, int16]
+	revents	const[0, int16]
+}

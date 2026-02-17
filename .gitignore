@@ -18,9 +18,12 @@ dashboard/app/config_prod.go
 sys/*/gen/*.go
 executor/defs.h
 executor/syscalls.h
+sys/*/*.txt.const
 
 # produced by gcloud command
 dashboard/app/.gcloudignore
 
 # jetbrains goland
 .idea
+
+sys/linux/new_*.txt

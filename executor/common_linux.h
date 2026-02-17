@@ -1384,6 +1384,8 @@ static void initialize_netdevices(void)
 		int macsize;
 		bool noipv6;
 	} devices[] = {
+        {"enp0s4", ETH_ALEN},
+        {"enp0s5", ETH_ALEN},
 	    {"lo", ETH_ALEN},
 	    {"sit0", 0},
 	    {"bridge0", ETH_ALEN},
@@ -3654,14 +3656,14 @@ static void sandbox_common()
 	prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
 	setsid();
 
-#if SYZ_EXECUTOR || __NR_syz_init_net_socket || SYZ_DEVLINK_PCI
-	int netns = open("/proc/self/ns/net", O_RDONLY);
-	if (netns == -1)
-		fail("open(/proc/self/ns/net) failed");
-	if (dup2(netns, kInitNetNsFd) < 0)
-		fail("dup2(netns, kInitNetNsFd) failed");
-	close(netns);
-#endif
+// #if SYZ_EXECUTOR || __NR_syz_init_net_socket || SYZ_DEVLINK_PCI
+// 	int netns = open("/proc/self/ns/net", O_RDONLY);
+// 	if (netns == -1)
+// 		fail("open(/proc/self/ns/net) failed");
+// 	if (dup2(netns, kInitNetNsFd) < 0)
+// 		fail("dup2(netns, kInitNetNsFd) failed");
+// 	close(netns);
+// #endif
 
 	struct rlimit rlim;
 #if SYZ_EXECUTOR
@@ -5281,6 +5283,63 @@ static long syz_clone3(volatile long a0, volatile long a1)
 	__atomic_store_n(&clone_ongoing, 1, __ATOMIC_RELAXED);
 #endif
 	return handle_clone_ret((long)syscall(__NR_clone3, &clone_args, copy_size));
+}
+
+#endif
+
+#if SYZ_EXECUTOR || __NR_syz_interrupt
+
+#define INTERRUPT _IO(0x68, 0)
+
+static long syz_interrupt(volatile long a0)
+{
+	char* data = (char*)a0;
+	int fd, ret;
+
+	fd = open("/dev/print_fuzz", O_RDONLY);
+	if (fd < 0)
+		fail("Open print_fuzz failed.");
+	ret = ioctl(fd, INTERRUPT, data);
+	if (ret < 0) {
+		debug("Ioctl interrupt for print_fuzz failed.");
+		return -1;
+	}
+
+	return 0;
+}
+
+#endif
+
+#if SYZ_EXECUTOR || __NR_syz_prepare_data
+
+#define PREPARE_DATA _IO(0x68, 1)
+
+#define BUF_LEN 0x400
+#define DMA_BUF_LEN 0x10000
+
+typedef struct fuzz_input {
+	char register_data[BUF_LEN];
+	char dma_data[DMA_BUF_LEN];
+} fuzz_input;
+
+static long syz_prepare_data(volatile long a0)
+{
+	fuzz_input* data = (fuzz_input*)a0;
+	int fd, ret, index;
+
+	for (index = BUF_LEN; index < DMA_BUF_LEN; index += BUF_LEN)
+		memcpy(data->dma_data+index, data->dma_data, BUF_LEN);
+
+	fd = open("/dev/print_fuzz", O_RDONLY);
+	if (fd < 0)
+		fail("Open print_fuzz failed.");
+	ret = ioctl(fd, PREPARE_DATA, data);
+	if (ret < 0) {
+		debug("Ioctl prepare_data for print_fuzz failed.");
+		return -1;
+	}
+
+	return 0;
 }
 
 #endif

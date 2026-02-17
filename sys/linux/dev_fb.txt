@@ -8,6 +8,7 @@ include <uapi/linux/videodev2.h>
 
 resource fd_fb[fd]
 
+syz_open_dev$fb(dev ptr[in, string["/dev/fb#"]], id intptr, flags flags[open_flags]) fd_fb
 openat$fb0(fd const[AT_FDCWD], file ptr[in, string["/dev/fb0"]], flags flags[open_flags], mode const[0]) fd_fb
 openat$fb1(fd const[AT_FDCWD], file ptr[in, string["/dev/fb1"]], flags flags[open_flags], mode const[0]) fd_fb
 

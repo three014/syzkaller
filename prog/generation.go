@@ -16,11 +16,13 @@ func (target *Target) Generate(rs rand.Source, ncalls int, ct *ChoiceTable) *Pro
 	r := newRand(target, rs)
 	s := newState(target, ct, nil)
 	for len(p.Calls) < ncalls {
-		calls := r.generateCall(s, p, len(p.Calls))
+		calls := r.generateCall(s, p, len(p.Calls), false)
 		for _, c := range calls {
 			s.analyze(c)
 			p.Calls = append(p.Calls, c)
 		}
+		p_calls := r.generateCall(s, p, len(p.Calls), true)
+		p.insertBefore(p.Calls[len(p.Calls)-1], p_calls)
 	}
 	// For the last generated call we could get additional calls that create
 	// resources and overflow ncalls. Remove some of these calls.
